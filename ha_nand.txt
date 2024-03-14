@@ -1,0 +1,34 @@
+//Design Code
+module ha(output sum,carry,input a,b);
+  wire o1,o2,o3;
+  nand a1(o1,a,b);
+  nand a2(o2,a,o1);
+  nand a3(o3,b,o1);
+  nand a4(sum,o2,o3);
+  nand a5(carry,o1,o1);
+endmodule
+
+//Test Bench Code
+module tb();
+  wire sum,carry;
+  reg a,b;
+  ha DUT(sum,carry,a,b);
+  initial
+    begin
+      integer i;
+      for(i=0;i<4;i=i+1)
+        begin
+          {a,b}=i;
+          #10;
+        end
+    end
+  initial
+    begin
+      $monitor("a=%b,b=%b,sum=%b,carry=%b",a,b,sum,carry);
+    end
+  initial
+    begin
+      $dumpfile("test.vcd");
+      $dumpvars(1);
+    end
+endmodule
